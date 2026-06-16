@@ -1,0 +1,222 @@
+---
+import Layout from '../components/Layout.astro';
+import { url } from '../utils';
+
+// Single member for now. Add more objects here and the layout handles the rest.
+// `image` is optional — without it, a monogram mark is shown instead.
+const team = [
+  {
+    name: 'André Chabaneix',
+    role: 'Founder & Principal',
+    image: '/images/headshot_Andre_large.JPG',
+    bio: [
+      'André is a climate and energy investor turned strategic finance advisor, with over a decade of experience spanning venture capital, project finance, and energy consulting. He has backed more than 20 software and deep tech companies from seed through growth stage across energy storage, carbon capture, advanced manufacturing, grid technologies, and industrial decarbonization, working directly with founders and executive teams on strategy, fundraising, and financial planning.',
+      'Earlier in his career André developed over 5 GW of utility-scale solar and storage at Avantus and advised utilities and governments on energy strategy at Navigant. He holds a BS and MEng in Chemical Engineering from Cornell and an MBA from UC Berkeley.',
+      "Today André works with climate startups as a fractional strategic finance partner, helping founders navigate fundraising strategy, financial modeling, capital allocation, and the key decisions that shape a company's trajectory.",
+      'Originally from Lima, Peru, André has spent the last two decades working across the US, Europe, and Latin America, bringing a unique international perspective to the founders and teams he works with.',
+    ],
+  },
+];
+
+const values = [
+  {
+    title: 'Elevated perspective',
+    body: 'We work at altitude, keeping strategy in view while the numbers stay grounded.',
+  },
+  {
+    title: 'Analytical rigor',
+    body: 'Every model and narrative is built to withstand institutional diligence.',
+  },
+  {
+    title: 'Enduring partnership',
+    body: 'We embed with founders for the long arc, not a single transaction.',
+  },
+];
+---
+
+<Layout
+  path="/about"
+  title="About | Altiplano Strategic Finance"
+  description="Altiplano is a strategic finance advisory team for early- to growth-stage startups in energy, climate, advanced materials, robotics, and space technologies."
+>
+  <section class="section page-head">
+    <div class="container">
+      <span class="eyebrow">About</span>
+      <h1>An advisory built at altitude</h1>
+      <p class="lede">
+        Altiplano brings institutional finance discipline to early- to
+        growth-stage founders across energy, climate, advanced materials,
+        robotics, and space technologies. We pair an elevated, strategic view
+        with grounded,
+        analytical execution.
+      </p>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="section values">
+    <div class="container values-grid">
+      {
+        values.map((v) => (
+          <div class="value reveal">
+            <span class="value-rule" aria-hidden="true" />
+            <h3>{v.title}</h3>
+            <p>{v.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="section team">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">The team</span>
+      </div>
+      <div class="team-grid">
+        {
+          team.map((member) => (
+            <article class="team-card reveal">
+              <div class="headshot">
+                {member.image ? (
+                  <img
+                    class="headshot-img"
+                    src={url(member.image)}
+                    alt={member.name}
+                    width="264"
+                    height="264"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <span class="headshot-mark" aria-hidden="true">
+                    {member.name.charAt(0)}
+                  </span>
+                )}
+              </div>
+              <div class="team-text">
+                <h3 class="team-name">{member.name}</h3>
+                <p class="team-role">{member.role}</p>
+                {member.bio.map((para) => (
+                  <p class="team-bio">{para}</p>
+                ))}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-head h1 {
+    margin-block: 0.6rem 1rem;
+  }
+
+  .values {
+    background: var(--sand-deep);
+  }
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: clamp(1.5rem, 4vw, 3rem);
+  }
+  .value-rule {
+    display: block;
+    width: 32px;
+    height: 2px;
+    background: var(--clay);
+    margin-bottom: 1.25rem;
+  }
+  .value h3 {
+    margin-bottom: 0.6rem;
+  }
+  .value p {
+    color: rgba(0, 20, 33, 0.68);
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.2rem);
+  }
+
+  .section-head {
+    margin-bottom: clamp(1.5rem, 3vw, 2rem);
+  }
+  .section-head h2 {
+    margin-top: 0.6rem;
+  }
+
+  /* Bio cards stack vertically; each holds a photo beside the text. Adding more
+     members to the `team` array just adds more cards. */
+  .team-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .team-card {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(1.5rem, 3vw, 2.25rem);
+    max-width: 840px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: clamp(1.75rem, 3vw, 2.5rem);
+  }
+
+  .headshot {
+    flex-shrink: 0;
+    width: clamp(96px, 13vw, 132px);
+    height: clamp(96px, 13vw, 132px);
+    border-radius: 50%;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--cloud), var(--andes-rose));
+    display: grid;
+    place-items: center;
+  }
+  .headshot-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+  .headshot-mark {
+    font-family: var(--font-logo);
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--navy);
+    opacity: 0.55;
+  }
+
+  .team-text {
+    min-width: 0;
+  }
+  .team-name {
+    font-size: 1.35rem;
+    margin-bottom: 0.2rem;
+  }
+  .team-role {
+    font-family: var(--font-label);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--clay);
+    margin-bottom: 1rem;
+  }
+  .team-bio {
+    font-size: 0.98rem;
+    line-height: 1.65;
+    color: rgba(0, 20, 33, 0.66);
+    margin: 0;
+    max-width: none;
+  }
+  .team-bio + .team-bio {
+    margin-top: 0.9rem;
+  }
+
+  @media (max-width: 620px) {
+    .team-card {
+      flex-direction: column;
+    }
+  }
+</style>

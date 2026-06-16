@@ -1,0 +1,280 @@
+/* ==========================================================================
+   Altiplano — Global Styles
+   Institutional minimalism · analytical · elevated
+   ========================================================================== */
+
+/* --- Fonts -------------------------------------------------------------- */
+/* Inter (headings + body) and Cinzel (logo / wordmark) via Google Fonts.
+   Preconnect + font-display:swap handled in <head>. */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Figtree:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+
+/* --- Design tokens ------------------------------------------------------ */
+:root {
+  /* Brand palette */
+  --navy: #001421;
+  --sand: #f5ede6;
+  --clay: #bd876b;
+  --terracotta: #c96e3d;
+  --andes-rose: #dfa98c;
+  --cloud: #d8dde3;
+
+  /* Derived surfaces */
+  --sand-deep: #ece0d5;
+  --navy-soft: #0a2231;
+  --line: rgba(0, 20, 33, 0.12);
+  --line-light: rgba(245, 237, 230, 0.16);
+
+  /* Typography */
+  --font-logo: 'Cinzel', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif;
+  /* Figtree stands in for Avenir Next LT Pro (commercial / not web-available)
+     as the label + logo-tagline typeface — a free, geometric near-match. */
+  --font-label: 'Figtree', var(--font-sans);
+
+  /* Rhythm */
+  --maxw: 1200px;
+  --maxw-narrow: 820px;
+  --gutter: clamp(1.25rem, 5vw, 4rem);
+  --section-y: clamp(2.25rem, 4vw, 3.5rem);
+  --radius: 4px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* --- Reset -------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  line-height: 1.7;
+  color: var(--navy);
+  background-color: var(--sand);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--clay);
+  text-decoration: none;
+  transition: color 0.2s var(--ease);
+}
+
+a:hover {
+  color: var(--terracotta);
+}
+
+/* --- Typography --------------------------------------------------------- */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+}
+
+h1 {
+  font-size: clamp(2.25rem, 1.6rem + 3.2vw, 4rem);
+}
+
+/* Inner-page (non-hero) titles sit a step down from the home hero h1,
+   just above the section h2 scale so the hierarchy still reads. */
+.page-head h1,
+.contact-inner h1 {
+  font-size: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem);
+}
+
+h2 {
+  font-size: clamp(1.75rem, 1.4rem + 1.6vw, 2.6rem);
+}
+
+h3 {
+  font-size: clamp(1.2rem, 1.1rem + 0.6vw, 1.5rem);
+  letter-spacing: -0.01em;
+}
+
+p {
+  max-width: 68ch;
+}
+
+/* --- Reusable utilities ------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--section-y);
+}
+
+.eyebrow {
+  font-family: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--clay);
+  margin-bottom: 1.1rem;
+  display: block;
+}
+
+.lede {
+  font-size: clamp(1.075rem, 1rem + 0.5vw, 1.3rem);
+  line-height: 1.6;
+  color: rgba(0, 20, 33, 0.78);
+  max-width: 60ch;
+}
+
+.measure {
+  max-width: var(--maxw-narrow);
+}
+
+/* --- Buttons ------------------------------------------------------------ */
+.btn {
+  --btn-bg: var(--navy);
+  --btn-fg: var(--sand);
+  --btn-bd: var(--navy);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  padding: 0.95rem 1.6rem;
+  color: var(--btn-fg);
+  background: var(--btn-bg);
+  border: 1px solid var(--btn-bd);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform 0.2s var(--ease), background 0.2s var(--ease),
+    color 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+
+.btn:hover {
+  background: var(--navy-soft);
+  color: var(--sand);
+  transform: translateY(-2px);
+}
+
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--navy);
+  --btn-bd: rgba(0, 20, 33, 0.28);
+}
+
+.btn--ghost:hover {
+  --btn-bg: transparent;
+  color: var(--navy);
+  border-color: var(--navy);
+  transform: translateY(-2px);
+}
+
+.btn--on-dark {
+  --btn-bg: var(--sand);
+  --btn-fg: var(--navy);
+  --btn-bd: var(--sand);
+}
+
+.btn--on-dark:hover {
+  background: #fff;
+  color: var(--navy);
+}
+
+.btn .arrow {
+  transition: transform 0.2s var(--ease);
+}
+
+.btn:hover .arrow {
+  transform: translateX(3px);
+}
+
+/* --- Accessibility ------------------------------------------------------ */
+:focus-visible {
+  outline: 2px solid var(--clay);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  z-index: 200;
+  background: var(--navy);
+  color: var(--sand);
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius);
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --- Motion: reveal on scroll ------------------------------------------ */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

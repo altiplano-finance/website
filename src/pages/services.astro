@@ -1,0 +1,256 @@
+---
+import Layout from '../components/Layout.astro';
+import { url } from '../utils';
+
+const groups = [
+  {
+    label: 'Raise Capital',
+    description:
+      'Walk into a raise prepared, with the financials, narrative, and strategy investors expect.',
+    services: [
+      {
+        title: 'Fundraising Support',
+        description:
+          'Narrative, data room, and investor process management from first meeting to close.',
+      },
+      {
+        title: 'Cap Tables & Waterfalls',
+        description:
+          'Round structuring, dilution, and exit outcomes modeled across preference stacks and scenarios.',
+      },
+      {
+        title: 'Venture Debt Strategy',
+        description:
+          'Structuring and sizing non-dilutive debt to extend runway intelligently.',
+      },
+      {
+        title: 'Project Finance Modeling',
+        description:
+          'Asset-level models for capital-intensive infrastructure and energy projects.',
+      },
+    ],
+  },
+  {
+    label: 'Run the Business',
+    description:
+      'The work of a fractional CFO, building the strategic finance function before you need to hire one full-time.',
+    services: [
+      {
+        title: 'Financial Modeling',
+        description:
+          'Integrated three-statement and operating models built for diligence and decision making.',
+      },
+      {
+        title: 'Planning & Capital Allocation',
+        description:
+          'Operating plans, budgets, and runway management, with scenario planning to weigh where each dollar goes across hiring, R&D, and GTM.',
+      },
+      {
+        title: 'Unit Economics & Pricing',
+        description:
+          'Margin, contribution, and pricing analysis that defends the model.',
+      },
+      {
+        title: 'KPIs & Dashboards',
+        description:
+          'Operating metrics that connect strategy to execution, in dashboards for your investors.',
+      },
+      {
+        title: 'Board & Investor Engagement',
+        description:
+          'Board decks, narratives, and updates that drive aligned decisions.',
+      },
+      {
+        title: 'Finance Function & Ops',
+        description:
+          'Systems, controls, reporting cadence, and the team roadmap to scale finance as you grow.',
+      },
+    ],
+  },
+  {
+    label: 'Understand the Market',
+    description:
+      'See your market, your competitors, the capital around you, and where you stand against them.',
+    services: [
+      {
+        title: 'Competitive Intelligence',
+        description:
+          'Market mapping and positioning intelligence to sharpen strategy.',
+      },
+      {
+        title: 'Fundraising Intelligence',
+        description:
+          'Investor lists curated by stage, check size, and focus, with fundraising benchmarks and market signals to target the right capital partners.',
+      },
+      {
+        title: 'Valuation & Benchmarking',
+        description:
+          'Market comps, valuation benchmarks, and a clear view of where you stand.',
+      },
+    ],
+  },
+];
+---
+
+<Layout
+  path="/services"
+  title="Services | Altiplano Strategic Finance"
+  description="Fractional CFO, fundraising support, financial modeling, project finance, and capital strategy for early- to growth-stage startups in energy, climate, advanced materials, robotics, and space technologies."
+>
+  <!-- Page header -->
+  <section class="page-head section">
+    <div class="container">
+      <span class="eyebrow">Services</span>
+      <h1>Finance capabilities for energy, climate, and deep tech startups</h1>
+      <p class="lede">
+        We work alongside founders across the whole journey, from raising your
+        next round to running the business to reading the market ahead.
+        Strategic finance for early- to growth-stage energy, climate, and deep
+        tech teams, rigorous enough for the investors who back you.
+      </p>
+    </div>
+  </section>
+
+  <!-- Grouped services -->
+  {
+    groups.map((group, gi) => (
+      <section class="section service-group" data-alt={gi % 2 === 1}>
+        <div class="container">
+          <div class="group-head reveal">
+            <h2>{group.label}</h2>
+            {group.description && <p class="group-desc">{group.description}</p>}
+          </div>
+          <dl class="service-list reveal">
+            {group.services.map((s) => (
+              <div class="service-row">
+                <dt class="service-name">{s.title}</dt>
+                <dd class="service-desc">{s.description}</dd>
+                <span class="service-rule" aria-hidden="true" />
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+    ))
+  }
+
+  <!-- CTA -->
+  <section class="cta-band">
+    <div class="container cta-inner reveal">
+      <h2 class="cta-title">Tell us what you're building.</h2>
+      <a class="btn btn--on-dark" href={url('/contact')}>
+        Contact Us <span class="arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-head {
+    padding-bottom: clamp(0.75rem, 1.5vw, 1.15rem);
+  }
+  .page-head h1 {
+    margin-block: 0.6rem 1rem;
+  }
+
+  .service-group {
+    padding-block: clamp(0.7rem, 1.4vw, 1.1rem);
+  }
+
+  .group-head {
+    margin-bottom: 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .group-head h2 {
+    font-size: clamp(1.45rem, 1.2rem + 1.2vw, 2.1rem);
+  }
+
+  .group-desc {
+    margin: 0.5rem 0 0;
+    font-size: clamp(1.0rem, 0.95rem + 0.3vw, 1.15rem);
+    line-height: 1.55;
+    color: rgba(0, 20, 33, 0.7);
+    max-width: none;
+  }
+
+  .service-list {
+    margin: 0;
+    margin-left: clamp(0rem, 3vw, 2.5rem);
+    display: grid;
+    gap: 0;
+  }
+
+  .service-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(200px, 0.7fr) 2fr;
+    gap: clamp(1rem, 4vw, 3rem);
+    align-items: baseline;
+    padding: clamp(0.85rem, 1.5vw, 1.1rem) clamp(0.6rem, 1.2vw, 0.9rem);
+    border-bottom: 1px solid var(--line);
+    transition: background 0.25s var(--ease);
+  }
+
+  .service-row:last-child {
+    border-bottom: none;
+  }
+
+  .service-row:hover {
+    background: var(--sand-deep);
+  }
+
+  .service-name {
+    font-weight: 600;
+    font-size: 1.02rem;
+    letter-spacing: -0.01em;
+    color: var(--navy);
+  }
+
+  .service-desc {
+    margin: 0;
+    font-size: 0.96rem;
+    line-height: 1.55;
+    color: rgba(0, 20, 33, 0.66);
+  }
+
+  .service-rule {
+    position: absolute;
+    left: clamp(0.6rem, 1.2vw, 0.9rem);
+    bottom: clamp(0.5rem, 1vw, 0.7rem);
+    height: 2px;
+    width: 0;
+    background: var(--clay);
+    border-radius: 2px;
+    transition: width 0.3s var(--ease);
+  }
+
+  .service-row:hover .service-rule {
+    width: 32px;
+  }
+
+  @media (max-width: 620px) {
+    .service-row {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
+    }
+  }
+
+  .cta-band {
+    background: var(--navy);
+    color: var(--sand);
+    padding-block: clamp(2.25rem, 4vw, 3.25rem);
+  }
+  .cta-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .cta-title {
+    color: var(--sand);
+    max-width: 22ch;
+  }
+</style>

@@ -1,0 +1,79 @@
+---
+import Layout from '../components/Layout.astro';
+import BlogCard from '../components/BlogCard.astro';
+
+const posts = [
+  {
+    title: 'Lorem ipsum dolor sit amet consectetur',
+    date: 'May 2026',
+    category: 'Fundraising',
+    description:
+      'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.',
+  },
+  {
+    title: 'Adipiscing elit sed do eiusmod tempor',
+    date: 'April 2026',
+    category: 'Project Finance',
+    description:
+      'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint.',
+  },
+  {
+    title: 'Ut enim ad minim veniam quis nostrud',
+    date: 'March 2026',
+    category: 'Capital Strategy',
+    description:
+      'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+  },
+];
+---
+
+<Layout
+  path="/blog"
+  title="Blog | Altiplano Strategic Finance"
+  description="Perspectives on fundraising, project finance, and capital strategy for early- to growth-stage startups in energy, climate, advanced materials, robotics, and space technologies."
+>
+  <section class="section page-head">
+    <div class="container">
+      <span class="eyebrow">Blog</span>
+      <h1>Perspectives</h1>
+      <p class="lede">
+        Notes on fundraising, financial modeling, and capital strategy for
+        early- to growth-stage energy, climate, and deep tech founders.
+      </p>
+    </div>
+  </section>
+
+  <section class="section posts">
+    <div class="container">
+      <div class="posts-grid">
+        {
+          posts.map((p) => (
+            <BlogCard
+              title={p.title}
+              date={p.date}
+              category={p.category}
+              description={p.description}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-head {
+    padding-bottom: clamp(1rem, 2vw, 1.5rem);
+  }
+  .page-head h1 {
+    margin-block: 0.6rem 1rem;
+  }
+  .posts {
+    padding-top: clamp(0.75rem, 1.5vw, 1.25rem);
+  }
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+</style>

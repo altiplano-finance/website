@@ -1,0 +1,80 @@
+---
+import Layout from '../components/Layout.astro';
+import { url } from '../utils';
+---
+
+<Layout
+  path="/portfolio"
+  title="Our Work | Altiplano Strategic Finance"
+  description="Altiplano's advisory engagements across energy, climate, advanced materials, robotics, and space technologies."
+>
+  <section class="section page-head">
+    <div class="container">
+      <span class="eyebrow">Our Work</span>
+      <h1>Built alongside founders</h1>
+    </div>
+  </section>
+
+  <section class="placeholder">
+    <div class="container measure reveal">
+      <div class="placeholder-card">
+        <img
+          src={url('/logos/altiplano_navy_llama_cutout.png')}
+          alt=""
+          width="64"
+          height="64"
+          loading="lazy"
+          decoding="async"
+        />
+        <p class="placeholder-text">Section coming soon.</p>
+        <p class="placeholder-sub">
+          We're preparing a selection of engagements across energy, climate,
+          and deep tech to share here.
+        </p>
+        <a class="btn btn--ghost" href={url('/contact')}>Work with us</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-head {
+    padding-bottom: 0;
+  }
+  .page-head h1 {
+    margin-top: 0.6rem;
+  }
+
+  .placeholder {
+    padding-block: clamp(1.5rem, 3vw, 2.5rem) var(--section-y);
+  }
+
+  .placeholder-card {
+    text-align: center;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: clamp(2.5rem, 7vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+  }
+
+  .placeholder-card img {
+    height: 56px;
+    width: auto;
+    margin: 0 auto 1.5rem;
+    opacity: 0.9;
+  }
+
+  .placeholder-text {
+    font-size: clamp(1.3rem, 1.1rem + 1vw, 1.7rem);
+    font-weight: 600;
+    color: var(--navy);
+    margin: 0 auto 0.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .placeholder-sub {
+    color: rgba(0, 20, 33, 0.62);
+    margin: 0 auto 2rem;
+    max-width: 44ch;
+  }
+</style>

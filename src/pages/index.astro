@@ -1,0 +1,338 @@
+---
+import Layout from '../components/Layout.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import { url } from '../utils';
+
+const featured = [
+  {
+    title: 'Raise Capital',
+    description:
+      'Walk into a raise prepared, with the financials, narrative, and strategy investors expect.',
+  },
+  {
+    title: 'Run the Business',
+    description:
+      'The work of a fractional CFO, building the strategic finance function before you need to hire one full-time.',
+  },
+  {
+    title: 'Understand the Market',
+    description:
+      'See your market, your competitors, the capital around you, and where you stand against them.',
+  },
+];
+
+const stats = [
+  { value: 'Frontier', label: 'Energy, climate & deep tech sectors' },
+  { value: 'Founder', label: 'Aligned, embedded support' },
+  { value: 'Institutional', label: 'Diligence-grade rigor' },
+];
+---
+
+<Layout path="/">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-media">
+      <img
+        src={url('/images/mountain_wide_p.png')}
+        alt="Layered Andean mountain ranges at altitude"
+        width="1774"
+        height="887"
+        fetchpriority="high"
+        decoding="async"
+      />
+      <div class="hero-scrim" aria-hidden="true"></div>
+    </div>
+
+    <div class="container">
+      <div class="hero-inner">
+        <span class="eyebrow">Strategic Finance Advisory</span>
+        <h1 class="hero-title">
+          Strategic Finance for Energy, Climate &amp; Deep Tech Startups
+        </h1>
+        <p class="hero-sub">
+          Fundraising, forecasting, and capital strategy for early- to
+          growth-stage energy, climate, and deep tech startups.
+        </p>
+        <div class="hero-actions">
+          <a class="btn" href={url('/contact')}>
+            Contact Us <span class="arrow" aria-hidden="true">&rarr;</span>
+          </a>
+          <a class="btn btn--ghost" href={url('/services')}>View Services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POSITIONING -->
+  <section class="section intro">
+    <div class="container intro-grid">
+      <div class="reveal">
+        <span class="eyebrow">An elevated perspective</span>
+        <h2>
+          We sit alongside founders as the finance function institutional
+          capital expects.
+        </h2>
+      </div>
+      <div class="intro-body reveal">
+        <p class="lede">
+          We translate ambitious engineering into the financial narrative,
+          models, and discipline that move capital, from first institutional
+          round to project finance.
+        </p>
+        <div class="stats">
+          {
+            stats.map((s) => (
+              <div class="stat">
+                <span class="stat-value">{s.value}</span>
+                <span class="stat-label">{s.label}</span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED SERVICES -->
+  <section class="section services-preview">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">What we do</span>
+        <h2>Capabilities built for energy, climate, and deep tech founders</h2>
+        <p class="lede">
+          A focused advisory partnership, from raising your next round to running
+          the business to reading the market ahead.
+        </p>
+      </div>
+      <div class="services-grid">
+        {featured.map((s) => <ServiceCard title={s.title} description={s.description} />)}
+      </div>
+      <div class="services-cta reveal">
+        <a class="btn btn--ghost" href={url('/services')}>
+          Explore all services <span class="arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING CTA -->
+  <section class="cta-band">
+    <div class="container cta-inner reveal">
+      <div>
+        <span class="eyebrow eyebrow--light">Start the conversation</span>
+        <h2 class="cta-title">
+          Raising capital, or building the model behind it?
+        </h2>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn--on-dark" href={url('/contact')}>
+          Contact Us <span class="arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        <a class="btn btn--ghost-light" href={url('/services')}>View Services</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* --- Hero --- */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    min-height: clamp(360px, 48vh, 480px);
+    display: flex;
+    align-items: flex-start;
+    overflow: hidden;
+  }
+
+  .hero-media,
+  .hero-media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-media img {
+    object-fit: cover;
+    object-position: center bottom;
+  }
+
+  .hero-scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      rgba(0, 20, 33, 0.75) 0%,
+      rgba(0, 20, 33, 0.45) 42%,
+      rgba(0, 20, 33, 0.2) 100%
+    );
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    /* Top padding matches the inner pages' section spacing so the hero
+       eyebrow lines up vertically with "SERVICES", "PLATFORM", etc. */
+    padding-top: var(--section-y);
+    padding-bottom: clamp(2rem, 4.5vw, 3.25rem);
+    max-width: 920px;
+  }
+
+  .hero-title {
+    color: var(--sand);
+    max-width: 16ch;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-sub {
+    color: rgba(245, 237, 230, 0.86);
+    font-size: clamp(1.075rem, 1rem + 0.6vw, 1.35rem);
+    line-height: 1.6;
+    max-width: 54ch;
+    margin-bottom: 2.25rem;
+  }
+
+  .hero .eyebrow {
+    color: var(--andes-rose);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+  }
+
+  .hero .btn--ghost {
+    --btn-fg: var(--sand);
+    --btn-bd: rgba(245, 237, 230, 0.4);
+  }
+  .hero .btn--ghost:hover {
+    color: var(--sand);
+    border-color: var(--sand);
+  }
+
+  /* --- Intro --- */
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+
+  .intro-body {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .intro-body .lede {
+    font-size: clamp(1.15rem, 1.05rem + 0.7vw, 1.45rem);
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    border-top: 1px solid var(--line);
+    padding-top: 1.1rem;
+  }
+
+  .stat-value {
+    display: block;
+    font-size: clamp(1.4rem, 1.2rem + 1vw, 1.9rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+  }
+
+  .stat-label {
+    display: block;
+    font-size: 1.05rem;
+    color: rgba(0, 20, 33, 0.6);
+    margin-top: 0.35rem;
+    line-height: 1.4;
+  }
+
+  /* --- Services preview --- */
+  .services-preview {
+    background: var(--sand-deep);
+  }
+
+  .section-head {
+    max-width: 60ch;
+    margin-bottom: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .section-head h2 {
+    margin-bottom: 1rem;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .services-cta {
+    margin-top: 1.75rem;
+  }
+
+  /* --- CTA band --- */
+  .cta-band {
+    background: var(--navy);
+    color: var(--sand);
+    padding-block: clamp(2.25rem, 4vw, 3.25rem);
+  }
+
+  .cta-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .eyebrow--light {
+    color: var(--andes-rose);
+  }
+
+  .cta-title {
+    color: var(--sand);
+    max-width: 20ch;
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+  }
+
+  .btn--ghost-light {
+    background: transparent;
+    color: var(--sand);
+    border: 1px solid rgba(245, 237, 230, 0.4);
+  }
+  .btn--ghost-light:hover {
+    background: transparent;
+    border-color: var(--sand);
+    color: var(--sand);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 860px) {
+    .intro-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .stats {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    .hero-actions .btn {
+      flex: 1 1 auto;
+      justify-content: center;
+    }
+  }
+</style>

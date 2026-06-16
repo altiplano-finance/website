@@ -1,0 +1,207 @@
+---
+import { url } from '../utils';
+
+export interface Props {
+  year?: number;
+}
+const { year = new Date().getFullYear() } = Astro.props;
+
+const links = [
+  { href: '/services', label: 'Services' },
+  { href: '/platform', label: 'Platform' },
+  { href: '/portfolio', label: 'Our Work' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+];
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a href={url('/')} class="footer-logo" aria-label="Altiplano — home">
+        <img
+          src={url('/logos/altiplano_beige_llama_cutout.png')}
+          alt=""
+          width="48"
+          height="48"
+          loading="lazy"
+          decoding="async"
+        />
+        <span class="footer-wordmark">Altiplano</span>
+      </a>
+      <p class="footer-desc">
+        Strategic finance for energy, climate, and deep tech startups. Elevated
+        perspective, grounded analysis.
+      </p>
+    </div>
+
+    <nav class="footer-nav" aria-label="Footer">
+      <span class="footer-heading">Explore</span>
+      <ul>
+        {links.map((l) => <li><a href={url(l.href)}>{l.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="footer-contact">
+      <span class="footer-heading">Get in touch</span>
+      <a href="mailto:hello@altiplano.finance" class="footer-email"
+        >hello@altiplano.finance</a
+      >
+      <a href={url('/contact')} class="footer-cta">Contact Us &rarr;</a>
+      <a
+        class="footer-social"
+        href="https://www.linkedin.com/company/altiplano/"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Altiplano on LinkedIn"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path
+            d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"
+          ></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <p>&copy; {year} Altiplano Strategic Finance. All rights reserved.</p>
+    <p class="footer-tagline">Strategic Finance for Energy, Climate &amp; Deep Tech</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--navy);
+    color: rgba(245, 237, 230, 0.72);
+    padding-top: clamp(2.75rem, 4.5vw, 4rem);
+    padding-bottom: 2rem;
+    margin-top: auto;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    padding-bottom: 2.25rem;
+    border-bottom: 1px solid var(--line-light);
+  }
+
+  .footer-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .footer-logo img {
+    height: 44px;
+    width: auto;
+  }
+
+  .footer-wordmark {
+    font-family: var(--font-logo);
+    font-weight: 600;
+    font-size: 1.5rem;
+    letter-spacing: 0.32em;
+    margin-right: -0.32em;
+    color: var(--sand);
+    text-transform: uppercase;
+  }
+
+  .footer-desc {
+    max-width: 40ch;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: rgba(245, 237, 230, 0.66);
+  }
+
+  .footer-heading {
+    display: block;
+    font-family: var(--font-label);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--clay);
+    margin-bottom: 1.1rem;
+  }
+
+  .footer-nav ul {
+    list-style: none;
+    display: grid;
+    gap: 0.65rem;
+  }
+
+  .footer-nav a,
+  .footer-contact a {
+    color: rgba(245, 237, 230, 0.78);
+    font-size: 1rem;
+  }
+
+  .footer-nav a:hover,
+  .footer-contact a:hover {
+    color: var(--andes-rose);
+  }
+
+  .footer-contact {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.65rem;
+  }
+
+  .footer-email {
+    font-size: 1rem;
+  }
+
+  .footer-cta {
+    color: var(--andes-rose) !important;
+    font-weight: 500;
+  }
+
+  .footer-social {
+    display: inline-flex;
+    margin-top: 0.4rem;
+    color: rgba(245, 237, 230, 0.78);
+    transition: color 0.2s var(--ease);
+  }
+  .footer-social:hover {
+    color: var(--andes-rose);
+  }
+  .footer-social svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+    display: block;
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding-top: 1.75rem;
+    font-size: 0.88rem;
+    color: rgba(245, 237, 230, 0.5);
+  }
+
+  .footer-bottom p {
+    max-width: none;
+  }
+
+  .footer-tagline {
+    font-family: var(--font-label);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 760px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+  }
+</style>

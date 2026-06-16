@@ -1,0 +1,95 @@
+---
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import { url } from '../utils';
+import '../styles/global.css';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  /** Path to the OG/social image, relative to site root. */
+  image?: string;
+  /** Current page path, e.g. "/services" — used for nav active state + canonical. */
+  path?: string;
+}
+
+const {
+  title = 'Altiplano | Strategic Finance for Energy, Climate & Deep Tech Startups',
+  description =
+    'Altiplano is a strategic finance advisory for early- to growth-stage startups across energy, climate, advanced materials, robotics, and space technologies. Fundraising, forecasting, capital strategy, and decision support.',
+  image = '/logos/altiplano_social.png',
+  path = Astro.url.pathname,
+} = Astro.props;
+
+const siteName = 'Altiplano';
+const origin = Astro.site ?? new URL(Astro.url.origin);
+const canonical = new URL(url(path), origin).href;
+const ogImage = new URL(url(image), origin).href;
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary meta -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#001421" />
+
+    <!-- Favicon (Altiplano mark) -->
+    <link rel="icon" type="image/png" href={url('/logos/altiplano_navy_llama_cutout.png')} />
+    <link rel="apple-touch-icon" href={url('/logos/altiplano_social.png')} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Fonts: preconnect for faster load -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header path={path} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer year={year} />
+
+    <!-- Subtle fade-in on scroll (respects prefers-reduced-motion via CSS) -->
+    <script>
+      const els = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window && els.length) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
+        );
+        els.forEach((el) => io.observe(el));
+      } else {
+        els.forEach((el) => el.classList.add('is-visible'));
+      }
+    </script>
+  </body>
+</html>
