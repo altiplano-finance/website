@@ -203,4 +203,15 @@ const links = [
       gap: 2.5rem;
     }
   }
+
+  /* Match the header wordmark's small-phone scaling so the top and bottom
+     marks stay identical in size. Mirrors Header.astro's 420px override. */
+  @media (max-width: 420px) {
+    .footer-logo img {
+      height: 36px;
+    }
+    .footer-wordmark {
+      font-size: 1.3rem;
+    }
+  }
 </style>
