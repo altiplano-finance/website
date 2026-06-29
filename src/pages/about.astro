@@ -32,12 +32,31 @@ const values = [
     body: 'We embed with founders for the long arc, not a single transaction.',
   },
 ];
+
+// Founder structured data, linked to the site-wide organization graph. Lets AI
+// answer engines attribute Altiplano's work to a real, credentialed person.
+const founder = team[0];
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: founder.name,
+  jobTitle: founder.role,
+  description:
+    'André Chabaneix is a climate and energy investor turned strategic finance advisor with over a decade of experience across venture capital, project finance, and energy consulting. He works with energy, climate, and deep tech founders as a fractional strategic finance partner.',
+  image: new URL(url(founder.image), Astro.site).href,
+  worksFor: { '@id': 'https://altiplano.finance/#organization' },
+  alumniOf: [
+    { '@type': 'CollegeOrUniversity', name: 'Cornell University' },
+    { '@type': 'CollegeOrUniversity', name: 'University of California, Berkeley' },
+  ],
+};
 ---
 
 <Layout
   path="/about"
   title="About | Altiplano Strategic Finance"
   description="Altiplano is a strategic finance advisory team for early- to growth-stage startups in energy, climate, advanced materials, robotics, and space technologies."
+  schema={personSchema}
 >
   <section class="section page-head">
     <div class="container">

@@ -11,6 +11,12 @@ export interface Props {
   image?: string;
   /** Current page path, e.g. "/services" — used for nav active state + canonical. */
   path?: string;
+  /**
+   * Page-specific JSON-LD (schema.org) entities to emit alongside the site-wide
+   * Organization graph. Pass a single object or an array. Reference the org via
+   * its @id, "https://altiplano.finance/#organization".
+   */
+  schema?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const {
@@ -19,6 +25,7 @@ const {
     'Altiplano is a strategic finance advisory for early- to growth-stage startups across energy, climate, advanced materials, robotics, and space technologies. Fundraising, forecasting, capital strategy, and decision support.',
   image = '/logos/altiplano_social.png',
   path = Astro.url.pathname,
+  schema,
 } = Astro.props;
 
 const siteName = 'Altiplano';
@@ -26,6 +33,79 @@ const origin = Astro.site ?? new URL(Astro.url.origin);
 const canonical = new URL(url(path), origin).href;
 const ogImage = new URL(url(image), origin).href;
 const year = new Date().getFullYear();
+
+// Site-wide structured data. Emitted on every page so AI answer engines and
+// search crawlers have a stable, machine-readable description of who Altiplano
+// is, what it offers, and who it serves. The @id lets page-level entities
+// (e.g. the founder on /about) reference this organization.
+const orgId = new URL(url('/'), origin).href + '#organization';
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  '@id': orgId,
+  name: 'Altiplano Strategic Finance',
+  alternateName: 'Altiplano',
+  url: new URL(url('/'), origin).href,
+  logo: new URL(url('/logos/altiplano_social.png'), origin).href,
+  image: ogImage,
+  description:
+    'Altiplano is a strategic finance advisory and fractional CFO practice for early- to growth-stage startups across energy, climate, advanced materials, robotics, and space technologies. We provide fundraising support, financial modeling, capital strategy, and decision support.',
+  email: 'hello@altiplano.finance',
+  founder: {
+    '@type': 'Person',
+    name: 'André Chabaneix',
+  },
+  sameAs: ['https://www.linkedin.com/company/altiplano/'],
+  knowsAbout: [
+    'Strategic finance',
+    'Fractional CFO services',
+    'Fundraising strategy',
+    'Financial modeling',
+    'Project finance',
+    'Venture capital',
+    'Capital allocation',
+    'Energy, climate, and deep tech startups',
+  ],
+  audience: {
+    '@type': 'Audience',
+    audienceType:
+      'Early- to growth-stage startups in energy, climate, advanced materials, robotics, and space technologies',
+  },
+  makesOffer: [
+    {
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: 'Raise Capital',
+        description:
+          'Fundraising support, cap table and waterfall modeling, venture debt strategy, and project finance modeling.',
+      },
+    },
+    {
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: 'Steer the Business',
+        description:
+          'Fractional CFO support: financial modeling, planning and capital allocation, unit economics, KPIs and reporting, and board and investor engagement.',
+      },
+    },
+    {
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: 'Stay Ahead',
+        description:
+          'Competitive intelligence, fundraising intelligence, and valuation and benchmarking.',
+      },
+    },
+  ],
+};
+
+const jsonLd = [
+  organizationSchema,
+  ...(schema ? (Array.isArray(schema) ? schema : [schema]) : []),
+];
 ---
 
 <!doctype html>
@@ -58,6 +138,13 @@ const year = new Date().getFullYear();
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+
+    <!-- Structured data (schema.org) for search and AI answer engines -->
+    {
+      jsonLd.map((entity) => (
+        <script type="application/ld+json" set:html={JSON.stringify(entity)} />
+      ))
+    }
 
     <!-- Fonts: preconnect for faster load -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

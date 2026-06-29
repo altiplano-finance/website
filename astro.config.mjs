@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 //
@@ -9,6 +10,7 @@ import { defineConfig } from 'astro/config';
 // then need `base: '/altiplano-website'`.
 export default defineConfig({
   site: 'https://altiplano.finance',
+  integrations: [sitemap()],
   build: {
     inlineStylesheets: 'auto',
   },
