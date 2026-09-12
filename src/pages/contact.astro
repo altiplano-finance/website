@@ -29,9 +29,10 @@ import Layout from '../components/Layout.astro';
 </Layout>
 
 <style>
-  .contact-inner {
+  /* The container stays full width so the content lines up with the header
+     and other pages; only the text column is kept narrow. */
+  .contact-inner > * {
     max-width: 640px;
-    margin-inline: 0;
   }
 
   .email-cta {
