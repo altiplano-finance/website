@@ -59,7 +59,7 @@ const personSchema = {
   schema={personSchema}
 >
   <section class="section page-head">
-    <div class="container">
+    <div class="container stack">
       <span class="eyebrow">About</span>
       <h1>An advisory built at altitude</h1>
       <p class="lede">
@@ -73,11 +73,11 @@ const personSchema = {
   </section>
 
   <!-- Values -->
-  <section class="section values">
+  <section class="section section--tinted values">
     <div class="container values-grid">
       {
         values.map((v) => (
-          <div class="value reveal">
+          <div class="value stack reveal">
             <span class="value-rule" aria-hidden="true" />
             <h3>{v.title}</h3>
             <p>{v.body}</p>
@@ -89,8 +89,8 @@ const personSchema = {
 
   <!-- Team -->
   <section class="section team">
-    <div class="container">
-      <div class="section-head reveal">
+    <div class="container stack">
+      <div class="section-head stack reveal">
         <span class="eyebrow">The team</span>
       </div>
       <div class="team-grid">
@@ -130,45 +130,30 @@ const personSchema = {
 </Layout>
 
 <style>
-  .page-head h1 {
-    margin-block: 0.6rem 1rem;
-  }
-
   .values {
     background: var(--sand-deep);
   }
   .values-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: clamp(1.5rem, 4vw, 3rem);
+    gap: var(--space) clamp(1.5rem, 4vw, 3rem);
   }
   .value-rule {
     display: block;
     width: 32px;
     height: 2px;
     background: var(--clay);
-    margin-bottom: 1.25rem;
-  }
-  .value h3 {
-    margin-bottom: 0.6rem;
   }
   .value p {
     color: rgba(0, 20, 33, 0.68);
-    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.2rem);
-  }
-
-  .section-head {
-    margin-bottom: clamp(1.5rem, 3vw, 2rem);
-  }
-  .section-head h2 {
-    margin-top: 0.6rem;
+    font-size: calc(clamp(1.05rem, 1rem + 0.35vw, 1.2rem) * var(--text-scale));
   }
 
   /* Bio cards stack vertically; each holds a photo beside the text. Adding more
      members to the `team` array just adds more cards. */
   .team-grid {
     display: grid;
-    gap: 1.5rem;
+    gap: var(--space);
   }
 
   .team-card {
@@ -200,7 +185,7 @@ const personSchema = {
   }
   .headshot-mark {
     font-family: var(--font-logo);
-    font-size: 2rem;
+    font-size: calc(2rem * var(--text-scale));
     font-weight: 600;
     color: var(--navy);
     opacity: 0.55;
@@ -210,20 +195,20 @@ const personSchema = {
     min-width: 0;
   }
   .team-name {
-    font-size: 1.35rem;
+    font-size: calc(1.35rem * var(--text-scale));
     margin-bottom: 0.2rem;
   }
   .team-role {
     font-family: var(--font-label);
     text-transform: uppercase;
     letter-spacing: 0.16em;
-    font-size: 0.8rem;
+    font-size: calc(0.8rem * var(--text-scale));
     font-weight: 600;
     color: var(--clay);
     margin-bottom: 1rem;
   }
   .team-bio {
-    font-size: 0.98rem;
+    font-size: calc(0.98rem * var(--text-scale));
     line-height: 1.65;
     color: rgba(0, 20, 33, 0.66);
     margin: 0;

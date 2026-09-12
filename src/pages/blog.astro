@@ -33,7 +33,7 @@ const posts = [
   description="Perspectives on fundraising, project finance, and capital strategy for early- to growth-stage startups in energy, climate, advanced materials, robotics, and space technologies."
 >
   <section class="section page-head">
-    <div class="container">
+    <div class="container stack">
       <span class="eyebrow">Blog</span>
       <h1>Perspectives</h1>
       <p class="lede">
@@ -62,18 +62,9 @@ const posts = [
 </Layout>
 
 <style>
-  .page-head {
-    padding-bottom: clamp(1rem, 2vw, 1.5rem);
-  }
-  .page-head h1 {
-    margin-block: 0.6rem 1rem;
-  }
-  .posts {
-    padding-top: clamp(0.75rem, 1.5vw, 1.25rem);
-  }
   .posts-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
+    gap: var(--space);
   }
 </style>

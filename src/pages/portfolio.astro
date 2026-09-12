@@ -9,13 +9,13 @@ import { url } from '../utils';
   description="Altiplano's advisory engagements across energy, climate, advanced materials, robotics, and space technologies."
 >
   <section class="section page-head">
-    <div class="container">
+    <div class="container stack">
       <span class="eyebrow">Our Work</span>
       <h1>Built alongside founders</h1>
     </div>
   </section>
 
-  <section class="placeholder">
+  <section class="section placeholder">
     <div class="container measure reveal">
       <div class="placeholder-card">
         <img
@@ -38,17 +38,6 @@ import { url } from '../utils';
 </Layout>
 
 <style>
-  .page-head {
-    padding-bottom: 0;
-  }
-  .page-head h1 {
-    margin-top: 0.6rem;
-  }
-
-  .placeholder {
-    padding-block: clamp(1.5rem, 3vw, 2.5rem) var(--section-y);
-  }
-
   .placeholder-card {
     text-align: center;
     background: #fff;
@@ -65,7 +54,7 @@ import { url } from '../utils';
   }
 
   .placeholder-text {
-    font-size: clamp(1.3rem, 1.1rem + 1vw, 1.7rem);
+    font-size: calc(clamp(1.3rem, 1.1rem + 1vw, 1.7rem) * var(--text-scale));
     font-weight: 600;
     color: var(--navy);
     margin: 0 auto 0.75rem;

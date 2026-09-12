@@ -73,16 +73,17 @@ const links = [
   .site-footer {
     background: var(--navy);
     color: rgba(245, 237, 230, 0.72);
-    padding-top: clamp(2.75rem, 4.5vw, 4rem);
-    padding-bottom: 2rem;
+    /* Hairline separates the footer from a navy CTA band directly above it. */
+    border-top: 1px solid var(--line-light);
+    padding-block: var(--space);
     margin-top: auto;
   }
 
   .footer-grid {
     display: grid;
     grid-template-columns: 1.6fr 1fr 1fr;
-    gap: clamp(2rem, 5vw, 4rem);
-    padding-bottom: 2.25rem;
+    gap: var(--space) clamp(2rem, 5vw, 4rem);
+    padding-bottom: var(--space);
     border-bottom: 1px solid var(--line-light);
   }
 
@@ -101,7 +102,7 @@ const links = [
   .footer-wordmark {
     font-family: var(--font-logo);
     font-weight: 600;
-    font-size: 1.5rem;
+    font-size: calc(1.5rem * var(--text-scale));
     letter-spacing: 0.32em;
     margin-right: -0.32em;
     color: var(--sand);
@@ -110,7 +111,7 @@ const links = [
 
   .footer-desc {
     max-width: 40ch;
-    font-size: 1rem;
+    font-size: calc(1rem * var(--text-scale));
     line-height: 1.7;
     color: rgba(245, 237, 230, 0.66);
   }
@@ -120,7 +121,7 @@ const links = [
     font-family: var(--font-label);
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    font-size: 0.8rem;
+    font-size: calc(0.8rem * var(--text-scale));
     font-weight: 600;
     color: var(--clay);
     margin-bottom: 1.1rem;
@@ -135,7 +136,7 @@ const links = [
   .footer-nav a,
   .footer-contact a {
     color: rgba(245, 237, 230, 0.78);
-    font-size: 1rem;
+    font-size: calc(1rem * var(--text-scale));
   }
 
   .footer-nav a:hover,
@@ -151,7 +152,7 @@ const links = [
   }
 
   .footer-email {
-    font-size: 1rem;
+    font-size: calc(1rem * var(--text-scale));
   }
 
   .footer-cta {
@@ -181,26 +182,26 @@ const links = [
     align-items: center;
     flex-wrap: wrap;
     gap: 0.75rem;
-    padding-top: 1.75rem;
-    font-size: 0.88rem;
+    padding-top: var(--space);
+    font-size: calc(0.88rem * var(--text-scale));
     color: rgba(245, 237, 230, 0.5);
   }
 
   .footer-bottom p {
     max-width: none;
+    margin-block: var(--trim-body);
   }
 
   .footer-tagline {
     font-family: var(--font-label);
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    font-size: 0.8rem;
+    font-size: calc(0.8rem * var(--text-scale));
   }
 
   @media (max-width: 760px) {
     .footer-grid {
       grid-template-columns: 1fr;
-      gap: 2.5rem;
     }
   }
 
@@ -211,7 +212,7 @@ const links = [
       height: 36px;
     }
     .footer-wordmark {
-      font-size: 1.3rem;
+      font-size: calc(1.3rem * var(--text-scale));
     }
   }
 </style>

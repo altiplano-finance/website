@@ -20,12 +20,6 @@ const featured = [
       'See your market, your competitors, the capital around you, and where you stand against them.',
   },
 ];
-
-const stats = [
-  { value: 'Frontier', label: 'Energy, climate & deep tech sectors' },
-  { value: 'Founder', label: 'Aligned, embedded support' },
-  { value: 'Institutional', label: 'Investor-grade discipline' },
-];
 ---
 
 <Layout path="/">
@@ -44,7 +38,7 @@ const stats = [
     </div>
 
     <div class="container">
-      <div class="hero-inner">
+      <div class="hero-inner stack">
         <span class="eyebrow">Strategic Finance Advisory</span>
         <h1 class="hero-title">
           Strategic Finance for Energy, Climate &amp; Deep Tech Startups
@@ -66,38 +60,25 @@ const stats = [
   <!-- POSITIONING -->
   <section class="section intro">
     <div class="container intro-grid">
-      <div class="reveal">
-        <span class="eyebrow">An elevated perspective</span>
-        <h2>
-          We sit alongside founders as the finance function institutional
-          capital expects.
-        </h2>
+      <div class="stack reveal">
+        <span class="eyebrow">Built to operate</span>
+        <h2>Run your finances with the rigor investors expect.</h2>
       </div>
-      <div class="intro-body reveal">
+      <div class="intro-body stack reveal">
         <p class="lede">
-          Altiplano is a strategic finance advisory and fractional CFO practice
-          for energy, climate, and deep tech startups. We translate ambitious
-          engineering into the financial narrative, models, and discipline that
-          move capital, from first institutional round to project finance.
+          Well-run finances are a lasting advantage and the foundation of a
+          strong raise. We help you build them early with reliable forecasts,
+          clear reporting, and the models and narrative investors look for, as
+          your fractional CFO and fundraising partner.
         </p>
-        <div class="stats">
-          {
-            stats.map((s) => (
-              <div class="stat">
-                <span class="stat-value">{s.value}</span>
-                <span class="stat-label">{s.label}</span>
-              </div>
-            ))
-          }
-        </div>
       </div>
     </div>
   </section>
 
   <!-- FEATURED SERVICES -->
-  <section class="section services-preview">
-    <div class="container">
-      <div class="section-head reveal">
+  <section class="section section--tinted services-preview">
+    <div class="container stack">
+      <div class="section-head stack reveal">
         <span class="eyebrow">What we do</span>
         <h2>Capabilities built for energy, climate, and deep tech founders</h2>
         <p class="lede">
@@ -119,7 +100,7 @@ const stats = [
   <!-- CLOSING CTA -->
   <section class="cta-band">
     <div class="container cta-inner reveal">
-      <div>
+      <div class="stack">
         <span class="eyebrow eyebrow--light">Start the conversation</span>
         <h2 class="cta-title">
           Raising capital, or building the model behind it?
@@ -140,7 +121,8 @@ const stats = [
   .hero {
     position: relative;
     isolation: isolate;
-    min-height: clamp(360px, 48vh, 480px);
+    /* No min-height: the photo band hugs its content, so the top and bottom
+       padding below are the only spacing around the text. */
     display: flex;
     align-items: flex-start;
     overflow: hidden;
@@ -170,32 +152,30 @@ const stats = [
     );
   }
 
+  /* The photo band follows the site-wide --space rhythm (.stack): top bar to
+     eyebrow, between each block, and below the buttons. */
   .hero-inner {
     position: relative;
     z-index: 1;
-    /* Top padding matches the inner pages' section spacing so the hero
-       eyebrow lines up vertically with "SERVICES", "PLATFORM", etc. */
-    padding-top: var(--section-y);
-    padding-bottom: clamp(2rem, 4.5vw, 3.25rem);
+    padding-block: var(--space);
     max-width: 920px;
+  }
+
+  .hero .eyebrow {
+    color: var(--andes-rose);
   }
 
   .hero-title {
     color: var(--sand);
     max-width: 16ch;
-    margin-bottom: 1.5rem;
   }
 
   .hero-sub {
     color: rgba(245, 237, 230, 0.86);
-    font-size: clamp(1.075rem, 1rem + 0.6vw, 1.35rem);
+    font-size: calc(clamp(1.075rem, 1rem + 0.6vw, 1.35rem) * var(--text-scale));
     line-height: 1.6;
     max-width: 54ch;
-    margin-bottom: 2.25rem;
-  }
-
-  .hero .eyebrow {
-    color: var(--andes-rose);
+    margin-block: var(--trim-lede);
   }
 
   .hero-actions {
@@ -217,41 +197,18 @@ const stats = [
   .intro-grid {
     display: grid;
     grid-template-columns: 1fr 1.2fr;
-    gap: clamp(2rem, 6vw, 5rem);
+    gap: var(--space) clamp(2rem, 6vw, 5rem);
+    /* Eyebrow + headline stay top-aligned on the left; the description is
+       vertically centered in the section. */
     align-items: start;
   }
 
   .intro-body {
-    display: grid;
-    gap: 1.25rem;
+    align-self: center;
   }
 
   .intro-body .lede {
-    font-size: clamp(1.15rem, 1.05rem + 0.7vw, 1.45rem);
-  }
-
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    border-top: 1px solid var(--line);
-    padding-top: 1.1rem;
-  }
-
-  .stat-value {
-    display: block;
-    font-size: clamp(1.4rem, 1.2rem + 1vw, 1.9rem);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    color: var(--navy);
-  }
-
-  .stat-label {
-    display: block;
-    font-size: 1.05rem;
-    color: rgba(0, 20, 33, 0.6);
-    margin-top: 0.35rem;
-    line-height: 1.4;
+    font-size: calc(clamp(1.15rem, 1.05rem + 0.7vw, 1.45rem) * var(--text-scale));
   }
 
   /* --- Services preview --- */
@@ -261,35 +218,26 @@ const stats = [
 
   .section-head {
     max-width: 60ch;
-    margin-bottom: clamp(1.5rem, 3vw, 2rem);
-  }
-
-  .section-head h2 {
-    margin-bottom: 1rem;
   }
 
   .services-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.25rem;
-  }
-
-  .services-cta {
-    margin-top: 1.75rem;
+    gap: var(--space);
   }
 
   /* --- CTA band --- */
   .cta-band {
     background: var(--navy);
     color: var(--sand);
-    padding-block: clamp(2.25rem, 4vw, 3.25rem);
+    padding-block: var(--space);
   }
 
   .cta-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 2rem;
+    gap: var(--space);
     flex-wrap: wrap;
   }
 
@@ -327,10 +275,6 @@ const stats = [
   }
 
   @media (max-width: 540px) {
-    .stats {
-      grid-template-columns: 1fr;
-      gap: 1.25rem;
-    }
     .hero-actions .btn {
       flex: 1 1 auto;
       justify-content: center;

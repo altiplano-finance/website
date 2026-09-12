@@ -107,20 +107,20 @@ const isActive = (href: string) =>
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
-    min-height: 76px;
+    min-height: 54px;
   }
 
   .brand {
     display: inline-flex;
     flex-direction: row;
     align-items: center;
-    gap: 0.7rem;
+    gap: 0.5rem;
     flex-shrink: 0;
     line-height: 1;
   }
 
   .brand-mark {
-    height: 44px;
+    height: 30px;
     width: auto;
     flex-shrink: 0;
   }
@@ -132,8 +132,8 @@ const isActive = (href: string) =>
     font-family: var(--font-logo);
     font-weight: 600;
     /* Fixed size (not a vw-based clamp) so the logo is identical on every page.
-       Matches the footer wordmark for a consistent mark. */
-    font-size: 1.5rem;
+       Sized down to sit close to the nav link text. */
+    font-size: calc(1.3rem * var(--text-scale));
     line-height: 1;
     color: var(--navy);
     text-transform: uppercase;
@@ -149,7 +149,7 @@ const isActive = (href: string) =>
   }
 
   .nav-link {
-    font-size: 0.94rem;
+    font-size: calc(0.94rem * var(--text-scale));
     font-weight: 500;
     color: var(--navy);
     letter-spacing: 0.005em;
@@ -210,22 +210,39 @@ const isActive = (href: string) =>
     transform: translateY(-6.5px) rotate(-45deg);
   }
 
-  /* --- Mobile drawer --- */
+  /* --- Mobile drawer ---
+     A narrow column pinned to the right edge below the sticky header. It
+     overlays the page instead of pushing content down, and only covers the
+     width its links need. */
   .mobile-nav {
     display: none;
-    border-top: 1px solid var(--line);
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 220px;
+    max-width: calc(100vw - 3rem);
+    max-height: calc(100vh - 100%);
+    overflow-y: auto;
     background: var(--sand);
+    border: 1px solid var(--line);
+    border-right: 0;
+    border-radius: 0 0 0 var(--radius);
+    box-shadow: -12px 18px 40px -20px rgba(0, 20, 33, 0.35);
   }
 
   .mobile-nav-list {
     list-style: none;
-    padding: 0.5rem var(--gutter) 1.75rem;
+    padding: 0.25rem 1.5rem 0.75rem;
+  }
+
+  .mobile-nav-list li:last-child .mobile-nav-link {
+    border-bottom: 0;
   }
 
   .mobile-nav-link {
     display: block;
     padding: 0.9rem 0;
-    font-size: 1.05rem;
+    font-size: calc(1.05rem * var(--text-scale));
     font-weight: 500;
     color: var(--navy);
     border-bottom: 1px solid var(--line);
@@ -251,10 +268,10 @@ const isActive = (href: string) =>
      Still uniform across pages — this keys off width, not page. */
   @media (max-width: 420px) {
     .brand-mark {
-      height: 36px;
+      height: 26px;
     }
     .brand-name {
-      font-size: 1.3rem;
+      font-size: calc(1.15rem * var(--text-scale));
     }
   }
 </style>
@@ -278,6 +295,12 @@ const isActive = (href: string) =>
     });
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') setOpen(false);
+    });
+    // The drawer overlays the page, so tapping the page behind it closes it.
+    document.addEventListener('click', (e) => {
+      if (!drawer.hidden && !(e.target as HTMLElement).closest('[data-header]')) {
+        setOpen(false);
+      }
     });
   }
 

@@ -51,7 +51,7 @@ const { title, date, description, category = 'Perspective', href = '#' } =
     font-family: var(--font-label);
     text-transform: uppercase;
     letter-spacing: 0.16em;
-    font-size: 0.78rem;
+    font-size: calc(0.78rem * var(--text-scale));
     font-weight: 600;
   }
 
@@ -64,7 +64,7 @@ const { title, date, description, category = 'Perspective', href = '#' } =
   }
 
   .blog-title {
-    font-size: 1.3rem;
+    font-size: calc(1.3rem * var(--text-scale));
     line-height: 1.25;
   }
 
@@ -77,7 +77,7 @@ const { title, date, description, category = 'Perspective', href = '#' } =
   }
 
   .blog-desc {
-    font-size: 1rem;
+    font-size: calc(1rem * var(--text-scale));
     line-height: 1.65;
     color: rgba(0, 20, 33, 0.66);
     margin: 0;
@@ -85,7 +85,7 @@ const { title, date, description, category = 'Perspective', href = '#' } =
 
   .blog-readmore {
     margin-top: auto;
-    font-size: 0.94rem;
+    font-size: calc(0.94rem * var(--text-scale));
     font-weight: 500;
     color: var(--clay);
     display: inline-flex;

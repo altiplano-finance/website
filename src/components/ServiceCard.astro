@@ -34,13 +34,13 @@ const { title, description } = Astro.props;
   }
 
   .service-title {
-    font-size: 1.18rem;
+    font-size: calc(1.18rem * var(--text-scale));
     font-weight: 600;
     letter-spacing: -0.01em;
   }
 
   .service-desc {
-    font-size: 0.98rem;
+    font-size: calc(0.98rem * var(--text-scale));
     line-height: 1.6;
     color: rgba(0, 20, 33, 0.66);
     margin: 0;

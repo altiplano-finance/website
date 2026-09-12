@@ -99,7 +99,7 @@ const groups = [
 >
   <!-- Page header -->
   <section class="page-head section">
-    <div class="container">
+    <div class="container stack">
       <span class="eyebrow">Services</span>
       <h1>Finance capabilities for energy, climate, and deep tech startups</h1>
       <p class="lede">
@@ -116,7 +116,7 @@ const groups = [
     groups.map((group, gi) => (
       <section class="section service-group" data-alt={gi % 2 === 1}>
         <div class="container">
-          <div class="group-head reveal">
+          <div class="group-head stack reveal">
             <h2>{group.label}</h2>
             {group.description && <p class="group-desc">{group.description}</p>}
           </div>
@@ -146,30 +146,25 @@ const groups = [
 </Layout>
 
 <style>
-  .page-head {
-    padding-bottom: clamp(0.75rem, 1.5vw, 1.15rem);
-  }
-  .page-head h1 {
-    margin-block: 0.6rem 1rem;
-  }
-
+  /* The last row already carries its own padding and text leading, so take
+     those off the section's bottom padding. The visible gap from the last row
+     to the next group title then matches --space. */
   .service-group {
-    padding-block: clamp(0.7rem, 1.4vw, 1.1rem);
+    --row-pad: clamp(0.3rem, 0.55vw, 0.4rem);
+    padding-bottom: calc(var(--space) - var(--row-pad) - 0.48em);
   }
 
   .group-head {
-    margin-bottom: 0;
-    padding-bottom: 0.75rem;
+    padding-bottom: var(--space);
     border-bottom: 1px solid var(--line);
   }
 
   .group-head h2 {
-    font-size: clamp(1.45rem, 1.2rem + 1.2vw, 2.1rem);
+    font-size: calc(clamp(1.45rem, 1.2rem + 1.2vw, 2.1rem) * var(--text-scale));
   }
 
   .group-desc {
-    margin: 0.5rem 0 0;
-    font-size: clamp(1.0rem, 0.95rem + 0.3vw, 1.15rem);
+    font-size: calc(clamp(1.0rem, 0.95rem + 0.3vw, 1.15rem) * var(--text-scale));
     line-height: 1.55;
     color: rgba(0, 20, 33, 0.7);
     max-width: none;
@@ -188,7 +183,7 @@ const groups = [
     grid-template-columns: minmax(200px, 0.7fr) 2fr;
     gap: clamp(1rem, 4vw, 3rem);
     align-items: baseline;
-    padding: clamp(0.85rem, 1.5vw, 1.1rem) clamp(0.6rem, 1.2vw, 0.9rem);
+    padding: var(--row-pad) clamp(0.6rem, 1.2vw, 0.9rem);
     border-bottom: 1px solid var(--line);
     transition: background 0.25s var(--ease);
   }
@@ -203,14 +198,14 @@ const groups = [
 
   .service-name {
     font-weight: 600;
-    font-size: 1.02rem;
+    font-size: calc(1.02rem * var(--text-scale));
     letter-spacing: -0.01em;
     color: var(--navy);
   }
 
   .service-desc {
     margin: 0;
-    font-size: 0.96rem;
+    font-size: calc(0.96rem * var(--text-scale));
     line-height: 1.55;
     color: rgba(0, 20, 33, 0.66);
   }
@@ -218,7 +213,7 @@ const groups = [
   .service-rule {
     position: absolute;
     left: clamp(0.6rem, 1.2vw, 0.9rem);
-    bottom: clamp(0.5rem, 1vw, 0.7rem);
+    bottom: 2px;
     height: 2px;
     width: 0;
     background: var(--clay);
@@ -240,17 +235,18 @@ const groups = [
   .cta-band {
     background: var(--navy);
     color: var(--sand);
-    padding-block: clamp(2.25rem, 4vw, 3.25rem);
+    padding-block: var(--space);
   }
   .cta-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1.5rem;
+    gap: var(--space);
     flex-wrap: wrap;
   }
   .cta-title {
     color: var(--sand);
     max-width: 22ch;
+    margin-block: var(--trim-heading);
   }
 </style>

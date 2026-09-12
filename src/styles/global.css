@@ -31,12 +31,22 @@
   /* Figtree stands in for Avenir Next LT Pro (commercial / not web-available)
      as the label + logo-tagline typeface — a free, geometric near-match. */
   --font-label: 'Figtree', var(--font-sans);
+  /* Global text size multiplier; every font-size on the site is scaled by it. */
+  --text-scale: 0.8;
 
   /* Rhythm */
   --maxw: 1200px;
   --maxw-narrow: 820px;
   --gutter: clamp(1.25rem, 5vw, 4rem);
-  --section-y: clamp(2.25rem, 4vw, 3.5rem);
+  /* One vertical rhythm for the whole site: section top/bottom padding and
+     the gap between stacked blocks (eyebrow, heading, lede, buttons, grids). */
+  --space: clamp(1.25rem, 2.5vw, 1.75rem);
+  /* Negative margins that trim each text style's line-height leading and the
+     font's space above capitals, so visible gaps match --space. */
+  --trim-label: -0.48em; /* eyebrows, line-height 1.7 */
+  --trim-heading: -0.19em; /* h1-h3, line-height 1.12 */
+  --trim-lede: -0.43em; /* ledes, line-height 1.6 */
+  --trim-body: -0.48em; /* body text, line-height 1.7 */
   --radius: 4px;
 
   /* Motion */
@@ -60,7 +70,7 @@ html {
 body {
   font-family: var(--font-sans);
   font-weight: 400;
-  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  font-size: calc(clamp(1rem, 0.96rem + 0.2vw, 1.0625rem) * var(--text-scale));
   line-height: 1.7;
   color: var(--navy);
   background-color: var(--sand);
@@ -98,22 +108,22 @@ h4 {
 }
 
 h1 {
-  font-size: clamp(2.25rem, 1.6rem + 3.2vw, 4rem);
+  font-size: calc(clamp(2.25rem, 1.6rem + 3.2vw, 4rem) * var(--text-scale));
 }
 
 /* Inner-page (non-hero) titles sit a step down from the home hero h1,
    just above the section h2 scale so the hierarchy still reads. */
 .page-head h1,
 .contact-inner h1 {
-  font-size: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem);
+  font-size: calc(clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem) * var(--text-scale));
 }
 
 h2 {
-  font-size: clamp(1.75rem, 1.4rem + 1.6vw, 2.6rem);
+  font-size: calc(clamp(1.75rem, 1.4rem + 1.6vw, 2.6rem) * var(--text-scale));
 }
 
 h3 {
-  font-size: clamp(1.2rem, 1.1rem + 0.6vw, 1.5rem);
+  font-size: calc(clamp(1.2rem, 1.1rem + 0.6vw, 1.5rem) * var(--text-scale));
   letter-spacing: -0.01em;
 }
 
@@ -130,22 +140,27 @@ p {
 }
 
 .section {
-  padding-block: var(--section-y);
+  padding-block: var(--space);
+}
+
+/* Two plain sand sections in a row share one gap instead of doubling it.
+   Sections with their own background (.section--tinted) keep both. */
+.section:not(.section--tinted) + .section:not(.section--tinted) {
+  padding-top: 0;
 }
 
 .eyebrow {
   font-family: var(--font-label);
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  font-size: 0.85rem;
+  font-size: calc(0.85rem * var(--text-scale));
   font-weight: 600;
   color: var(--clay);
-  margin-bottom: 1.1rem;
   display: block;
 }
 
 .lede {
-  font-size: clamp(1.075rem, 1rem + 0.5vw, 1.3rem);
+  font-size: calc(clamp(1.075rem, 1rem + 0.5vw, 1.3rem) * var(--text-scale));
   line-height: 1.6;
   color: rgba(0, 20, 33, 0.78);
   max-width: 60ch;
@@ -153,6 +168,31 @@ p {
 
 .measure {
   max-width: var(--maxw-narrow);
+}
+
+/* Vertical stack: children sit exactly --space apart. Text children get their
+   leading trimmed so the visible gap matches. :where() keeps these rules at
+   low specificity, so a page can still override a trim. */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space);
+}
+
+.stack > :where(.eyebrow) {
+  margin-block: var(--trim-label);
+}
+
+.stack > :where(h1, h2, h3) {
+  margin-block: var(--trim-heading);
+}
+
+.stack > :where(.lede) {
+  margin-block: var(--trim-lede);
+}
+
+.stack > :where(p:not(.lede)) {
+  margin-block: var(--trim-body);
 }
 
 /* --- Buttons ------------------------------------------------------------ */
@@ -165,7 +205,7 @@ p {
   gap: 0.6rem;
   font-family: var(--font-sans);
   font-weight: 500;
-  font-size: 0.95rem;
+  font-size: calc(0.95rem * var(--text-scale));
   letter-spacing: 0.01em;
   line-height: 1;
   padding: 0.95rem 1.6rem;
