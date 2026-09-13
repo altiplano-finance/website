@@ -1,0 +1,491 @@
+---
+import Layout from './Layout.astro';
+import { url } from '../utils';
+import { formatDate, readingMinutes, type Insight } from '../insights';
+
+export interface Props {
+  /** The post to show. */
+  post: Insight;
+  /** Every insight, newest first, for the side menu and previous/next links. */
+  posts: Insight[];
+}
+const { post, posts } = Astro.props;
+
+const { Content } = await post.render();
+const { title, summary, date, draft } = post.data;
+const href = (p: Insight) => url(`/insights/${p.slug}`);
+const path = `/insights/${post.slug}`;
+const pageUrl = new URL(url(path), Astro.site).href;
+
+const index = posts.findIndex((p) => p.slug === post.slug);
+const newer = index > 0 ? posts[index - 1] : undefined;
+const older = index < posts.length - 1 ? posts[index + 1] : undefined;
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description: summary,
+  datePublished: date.toISOString(),
+  url: pageUrl,
+  mainEntityOfPage: pageUrl,
+  author: {
+    '@type': 'Person',
+    name: 'André Chabaneix',
+    url: new URL(url('/about'), Astro.site).href,
+  },
+  publisher: { '@id': 'https://altiplano.finance/#organization' },
+};
+---
+
+<Layout
+  path={path}
+  title={`${title} | Altiplano Strategic Finance`}
+  description={summary}
+  type="article"
+  schema={articleSchema}
+>
+  <section class="section insights-section">
+    <div class="container insights">
+      <!-- Desktop: side menu that stays in view while reading. -->
+      <nav class="insights-side" aria-label="All insights">
+        <span class="eyebrow">Insights</span>
+        <ol class="insights-list">
+          {
+            posts.map((p) => (
+              <li>
+                <a
+                  href={href(p)}
+                  class:list={['insights-link', { active: p.slug === post.slug }]}
+                  aria-current={p.slug === post.slug ? 'page' : undefined}
+                >
+                  <span class="insights-link-title">{p.data.title}</span>
+                  <time datetime={p.data.date.toISOString()}>{formatDate(p.data.date, 'short')}</time>
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
+
+      <!-- Phones: the same list, collapsed above the post. -->
+      <details class="insights-picker">
+        <summary>All insights ({posts.length})</summary>
+        <ol class="insights-list">
+          {
+            posts.map((p) => (
+              <li>
+                <a
+                  href={href(p)}
+                  class:list={['insights-link', { active: p.slug === post.slug }]}
+                  aria-current={p.slug === post.slug ? 'page' : undefined}
+                >
+                  <span class="insights-link-title">{p.data.title}</span>
+                  <time datetime={p.data.date.toISOString()}>{formatDate(p.data.date, 'short')}</time>
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </details>
+
+      <article class="insight">
+        <header class="insight-head">
+          {draft && <span class="insight-draft">Draft, not on the live site</span>}
+          <h1>{title}</h1>
+          <p class="insight-summary">{summary}</p>
+          <p class="insight-meta">
+            By André <span aria-hidden="true">·</span>
+            <time datetime={date.toISOString()}>{formatDate(date)}</time>
+            <span aria-hidden="true">·</span>
+            {readingMinutes(post.body)} min read
+          </p>
+        </header>
+
+        <div class="prose">
+          <Content />
+        </div>
+
+        {
+          (older || newer) && (
+            <nav class="insight-pager" aria-label="More insights">
+              {older ? (
+                <a class="pager-link" href={href(older)} rel="prev">
+                  <span class="pager-label">&larr; Previous</span>
+                  <span class="pager-title">{older.data.title}</span>
+                </a>
+              ) : (
+                <span />
+              )}
+              {newer && (
+                <a class="pager-link pager-link--next" href={href(newer)} rel="next">
+                  <span class="pager-label">Next &rarr;</span>
+                  <span class="pager-title">{newer.data.title}</span>
+                </a>
+              )}
+            </nav>
+          )
+        }
+      </article>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="container cta-inner">
+      <h2 class="cta-title">Tell us what you're building.</h2>
+      <a class="btn btn--on-dark" href={url('/contact')}>
+        Contact Us <span class="arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* On a short post the article area stretches to fill the window, so the
+     contact band stays directly on top of the footer. */
+  :global(main:has(> .insights-section)) {
+    display: flex;
+    flex-direction: column;
+  }
+  .insights-section {
+    flex: 1 0 auto;
+  }
+
+  .insights {
+    /* Sticky header height: 54px bar + 1px bottom border. Must match exactly,
+       or the side menu shifts by the difference when it starts sticking. */
+    --header-h: 55px;
+    display: grid;
+    grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
+    gap: var(--space) clamp(2rem, 5vw, 4.5rem);
+    align-items: start;
+  }
+
+  /* --- Side menu --- */
+  /* The menu never scrolls as a whole: only the list below the eyebrow does,
+     so the eyebrow is never inside a clipping box and can't lose its tops. */
+  .insights-side {
+    position: sticky;
+    top: calc(var(--header-h) + var(--space));
+    max-height: calc(100vh - var(--header-h) - 2 * var(--space));
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .insights-side .eyebrow {
+    margin-top: var(--trim-label);
+  }
+
+  .insights-side .insights-list {
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  /* Drawn as inset shadows rather than borders so a scrolling list can't clip
+     the rail or the active marker. */
+  .insights-list {
+    list-style: none;
+    box-shadow: inset 1px 0 0 var(--line);
+  }
+
+  .insights-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.6rem 0 0.6rem 1rem;
+    color: var(--navy);
+    transition: color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  }
+
+  .insights-link-title {
+    font-size: calc(0.95rem * var(--text-scale));
+    font-weight: 500;
+    line-height: 1.35;
+  }
+
+  .insights-link time {
+    font-family: var(--font-label);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: calc(0.72rem * var(--text-scale));
+    font-weight: 600;
+    color: rgba(0, 20, 33, 0.5);
+  }
+
+  .insights-link:hover {
+    color: var(--clay);
+  }
+
+  .insights-link.active {
+    color: var(--clay);
+    box-shadow: inset 2px 0 0 var(--clay);
+  }
+
+  .insights-picker {
+    display: none;
+  }
+
+  /* --- Article --- */
+  .insight {
+    max-width: 640px;
+    min-width: 0;
+  }
+
+  .insight-head {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-bottom: var(--space);
+    margin-bottom: var(--space);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .insight-head h1 {
+    font-size: calc(clamp(1.9rem, 1.5rem + 1.8vw, 2.75rem) * var(--text-scale));
+    margin-top: var(--trim-heading);
+  }
+
+  .insight-summary {
+    font-size: calc(clamp(1.1rem, 1rem + 0.5vw, 1.3rem) * var(--text-scale));
+    line-height: 1.5;
+    color: rgba(0, 20, 33, 0.7);
+  }
+
+  .insight-meta {
+    font-size: calc(0.9rem * var(--text-scale));
+    color: rgba(0, 20, 33, 0.6);
+    margin-bottom: var(--trim-body);
+  }
+
+  .insight-draft {
+    align-self: flex-start;
+    font-family: var(--font-label);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: calc(0.72rem * var(--text-scale));
+    font-weight: 600;
+    color: var(--sand);
+    background: var(--terracotta);
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--radius);
+  }
+
+  /* --- Post body (rendered Markdown) --- */
+  .prose {
+    font-size: calc(1.2rem * var(--text-scale));
+    line-height: 1.75;
+    color: rgba(0, 20, 33, 0.86);
+  }
+
+  .prose > :global(*) {
+    margin-block: 0;
+  }
+  .prose > :global(* + *) {
+    margin-top: 1.25em;
+  }
+  .prose > :global(:first-child) {
+    margin-top: -0.4em;
+  }
+
+  .prose :global(p) {
+    max-width: none;
+  }
+
+  .prose :global(h2) {
+    font-size: calc(1.6rem * var(--text-scale));
+    line-height: 1.25;
+  }
+  .prose :global(h3) {
+    font-size: calc(1.3rem * var(--text-scale));
+    line-height: 1.3;
+  }
+  .prose > :global(h2) {
+    margin-top: 2em;
+  }
+  .prose > :global(h3) {
+    margin-top: 1.6em;
+  }
+  .prose > :global(:is(h2, h3) + *) {
+    margin-top: 0.6em;
+  }
+
+  .prose :global(strong) {
+    font-weight: 600;
+    color: var(--navy);
+  }
+
+  .prose :global(a) {
+    color: var(--navy);
+    text-decoration: underline;
+    text-decoration-color: var(--clay);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+  .prose :global(a:hover) {
+    color: var(--clay);
+  }
+
+  .prose :global(:is(ul, ol)) {
+    padding-left: 1.4em;
+  }
+  .prose :global(li + li) {
+    margin-top: 0.4em;
+  }
+  .prose :global(li::marker) {
+    color: var(--clay);
+  }
+
+  .prose :global(blockquote) {
+    border-left: 2px solid var(--clay);
+    padding-left: 1.25em;
+    color: rgba(0, 20, 33, 0.72);
+    font-style: italic;
+  }
+
+  .prose :global(img) {
+    border-radius: var(--radius);
+  }
+
+  .prose :global(hr) {
+    border: 0;
+    border-top: 1px solid var(--line);
+  }
+  .prose > :global(hr) {
+    margin-block: 2.25em;
+  }
+
+  /* Wide tables scroll sideways on their own instead of widening the page. */
+  .prose :global(table) {
+    display: block;
+    overflow-x: auto;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    line-height: 1.5;
+  }
+  .prose :global(:is(th, td)) {
+    padding: 0.6em 1em 0.6em 0;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+  }
+  .prose :global(th) {
+    font-weight: 600;
+    color: var(--navy);
+    border-bottom-color: rgba(0, 20, 33, 0.3);
+  }
+
+  .prose :global(code) {
+    font-family: ui-monospace, Consolas, 'SF Mono', Menlo, monospace;
+    font-size: 0.88em;
+    background: var(--sand-deep);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+  }
+  .prose :global(pre) {
+    padding: 1em 1.25em;
+    overflow-x: auto;
+    border-radius: var(--radius);
+    font-size: 0.9em;
+    line-height: 1.6;
+  }
+  .prose :global(pre code) {
+    background: none;
+    padding: 0;
+  }
+
+  /* --- Previous / next --- */
+  .insight-pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space);
+    margin-top: calc(2 * var(--space));
+    padding-top: var(--space);
+    border-top: 1px solid var(--line);
+  }
+
+  .pager-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    color: var(--navy);
+  }
+  .pager-link--next {
+    grid-column: 2;
+    text-align: right;
+  }
+  .pager-label {
+    font-family: var(--font-label);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: calc(0.78rem * var(--text-scale));
+    font-weight: 600;
+    color: var(--clay);
+  }
+  .pager-title {
+    font-weight: 500;
+    line-height: 1.35;
+  }
+  .pager-link:hover .pager-title {
+    color: var(--clay);
+  }
+
+  /* --- Closing CTA (matches Services) --- */
+  .cta-band {
+    background: var(--navy);
+    color: var(--sand);
+    padding-block: var(--space);
+  }
+  .cta-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space);
+    flex-wrap: wrap;
+  }
+  .cta-title {
+    color: var(--sand);
+    max-width: 22ch;
+    margin-block: var(--trim-heading);
+  }
+
+  /* --- Phones and tablets: one column, menu collapsed above the post --- */
+  @media (max-width: 860px) {
+    .insights {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .insights-side {
+      display: none;
+    }
+    .insights-picker {
+      display: block;
+      border-block: 1px solid var(--line);
+    }
+    .insights-picker summary {
+      cursor: pointer;
+      padding: 0.8rem 0;
+      font-family: var(--font-label);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: calc(0.8rem * var(--text-scale));
+      font-weight: 600;
+      color: var(--clay);
+    }
+    .insights-picker .insights-list {
+      margin-bottom: 1rem;
+    }
+    .insight {
+      max-width: none;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .insight-pager {
+      grid-template-columns: 1fr;
+    }
+    .pager-link--next {
+      grid-column: 1;
+      text-align: left;
+    }
+  }
+</style>

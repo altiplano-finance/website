@@ -1,0 +1,14 @@
+---
+import InsightsView from '../../components/InsightsView.astro';
+import { getInsights, type Insight } from '../../insights';
+
+export async function getStaticPaths() {
+  const posts = await getInsights();
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props as { post: Insight };
+const posts = await getInsights();
+---
+
+<InsightsView post={post} posts={posts} />

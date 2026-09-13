@@ -1,0 +1,35 @@
+---
+import Layout from '../../components/Layout.astro';
+import InsightsView from '../../components/InsightsView.astro';
+import { getInsights } from '../../insights';
+
+// /insights opens straight to the latest post. Its canonical URL is the post's
+// own address, so search engines don't treat this page as a duplicate.
+const posts = await getInsights();
+const latest = posts[0];
+---
+
+{
+  latest ? (
+    <InsightsView post={latest} posts={posts} />
+  ) : (
+    <Layout
+      path="/insights"
+      title="Insights | Altiplano Strategic Finance"
+      description="Research and analysis on the sectors shaping energy, climate, and deep tech: where capital is flowing, how the competitive landscape is forming, and what will separate the companies that scale."
+    >
+      <section class="section page-head">
+        <div class="container stack">
+          <span class="eyebrow">Insights</span>
+          <h1>A clearer view of the landscape</h1>
+          <p class="lede">
+            Research and analysis on the sectors shaping energy, climate, and
+            deep tech: where capital is flowing, how the competitive landscape
+            is forming, and what will separate the companies that scale. The
+            first pieces are on their way.
+          </p>
+        </div>
+      </section>
+    </Layout>
+  )
+}

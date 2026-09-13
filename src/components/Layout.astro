@@ -11,6 +11,8 @@ export interface Props {
   image?: string;
   /** Current page path, e.g. "/services" — used for nav active state + canonical. */
   path?: string;
+  /** Open Graph type: "article" for insight posts, "website" everywhere else. */
+  type?: 'website' | 'article';
   /**
    * Page-specific JSON-LD (schema.org) entities to emit alongside the site-wide
    * Organization graph. Pass a single object or an array. Reference the org via
@@ -25,6 +27,7 @@ const {
     'Altiplano is a strategic finance advisory for early- to growth-stage startups across energy, climate, advanced materials, robotics, and space technologies. Fundraising, forecasting, capital strategy, and decision support.',
   image = '/logos/altiplano_social.png',
   path = Astro.url.pathname,
+  type = 'website',
   schema,
 } = Astro.props;
 
@@ -126,7 +129,7 @@ const jsonLd = [
     <link rel="apple-touch-icon" href={url('/logos/altiplano_social.png')} />
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={type} />
     <meta property="og:site_name" content={siteName} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />

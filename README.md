@@ -23,14 +23,19 @@ src/
     Header.astro        # logo + nav + mobile hamburger
     Footer.astro        # logo, description, contact, copyright
     ServiceCard.astro
-    BlogCard.astro
+    InsightsView.astro  # insight post page: side menu, article, prev/next
+  content/
+    config.ts           # fields each insight needs (title, date, summary, draft)
+    insights/           # one Markdown file per insight
   pages/
     index.astro         # Home (hero + services + CTA)
     services.astro      # Grouped service cards
     portfolio.astro     # Placeholder
+    insights/
+      index.astro       # /insights, opens the latest post
+      [slug].astro      # /insights/<file-name>
     about.astro         # Team placeholder
-    blog.astro          # 3 placeholder posts
-    contact.astro       # Front-end-only contact form
+    contact.astro       # Contact details
   styles/
     global.css          # design tokens + base styles
 ```
@@ -41,6 +46,30 @@ src/
 npm install
 npm run dev      # http://localhost:4321
 ```
+
+## Publishing an insight
+
+Each insight is a Markdown file in [`src/content/insights/`](src/content/insights/). Readers
+see a formatted page; the Markdown is only the source.
+
+1. Add a file such as `reading-a-term-sheet.md`. The file name becomes the address:
+   `/insights/reading-a-term-sheet`.
+2. Start it with this block, then write the post below it:
+
+   ```md
+   ---
+   title: "Reading a term sheet"
+   date: 2026-09-12
+   summary: "One or two sentences shown under the title and in search results."
+   draft: false
+   ---
+   ```
+
+3. Push to `main`. The site rebuilds and the post appears within a few minutes, newest first.
+
+Posts with `draft: true` appear in `npm run dev` only. Images go in
+`src/content/insights/images/` and are referenced as `![Description](./images/chart.png)`.
+See [`formatting-guide.md`](src/content/insights/formatting-guide.md) for every formatting option.
 
 ## Build
 
