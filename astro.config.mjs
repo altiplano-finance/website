@@ -11,10 +11,6 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://altiplano.finance',
   integrations: [sitemap()],
-  // The old placeholder /blog page became Insights.
-  redirects: {
-    '/blog': '/insights',
-  },
   build: {
     inlineStylesheets: 'auto',
   },
