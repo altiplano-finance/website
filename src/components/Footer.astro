@@ -72,19 +72,25 @@ const links = [
 
 <style>
   .site-footer {
+    /* The footer hugs its text: edges and the divider sit a snug, even
+       distance from the content rather than a full section of spacing. */
+    --footer-pad: clamp(1rem, 1.5vw, 1.25rem);
+    --footer-row-gap: 0.45rem;
     background: var(--navy);
     color: rgba(245, 237, 230, 0.72);
     /* Hairline separates the footer from a navy CTA band directly above it. */
     border-top: 1px solid var(--line-light);
-    padding-block: var(--space);
+    padding-block: var(--footer-pad);
     margin-top: auto;
   }
 
   .footer-grid {
     display: grid;
     grid-template-columns: 1.6fr 1fr 1fr;
-    gap: var(--space) clamp(2rem, 5vw, 4rem);
-    padding-bottom: var(--space);
+    gap: var(--footer-pad) clamp(2rem, 5vw, 4rem);
+    /* Less the last link's line spacing, so the text-to-divider gap matches
+       the gap at the top edge. */
+    padding-bottom: calc(var(--footer-pad) - 0.25rem);
     border-bottom: 1px solid var(--line-light);
   }
 
@@ -92,7 +98,7 @@ const links = [
     display: inline-flex;
     align-items: center;
     gap: 0.75rem;
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.75rem;
   }
 
   .footer-logo img {
@@ -125,13 +131,13 @@ const links = [
     font-size: calc(0.8rem * var(--text-scale));
     font-weight: 600;
     color: var(--clay);
-    margin-bottom: 1.1rem;
+    margin-bottom: 0.7rem;
   }
 
   .footer-nav ul {
     list-style: none;
     display: grid;
-    gap: 0.65rem;
+    gap: var(--footer-row-gap);
   }
 
   .footer-nav a,
@@ -149,7 +155,13 @@ const links = [
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.65rem;
+    gap: var(--footer-row-gap);
+  }
+
+  /* The flex gap already adds space under the heading; subtract it so the
+     email lines up with the first Explore link. */
+  .footer-contact .footer-heading {
+    margin-bottom: calc(0.7rem - var(--footer-row-gap));
   }
 
   .footer-email {
@@ -163,7 +175,7 @@ const links = [
 
   .footer-social {
     display: inline-flex;
-    margin-top: 0.4rem;
+    margin-top: 0.25rem;
     color: rgba(245, 237, 230, 0.78);
     transition: color 0.2s var(--ease);
   }
@@ -182,8 +194,8 @@ const links = [
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 0.75rem;
-    padding-top: var(--space);
+    gap: 0.4rem 0.75rem;
+    padding-top: var(--footer-pad);
     font-size: calc(0.88rem * var(--text-scale));
     color: rgba(245, 237, 230, 0.5);
   }
@@ -200,7 +212,20 @@ const links = [
     font-size: calc(0.8rem * var(--text-scale));
   }
 
+  /* Narrow screens: the brand block spans the top, and Explore and Get in
+     touch sit side by side instead of stacking into a tall column. */
   @media (max-width: 760px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+      column-gap: 1.25rem;
+    }
+    .footer-brand {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* Very small phones: too narrow for the email beside the links. */
+  @media (max-width: 340px) {
     .footer-grid {
       grid-template-columns: 1fr;
     }
